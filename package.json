@@ -13,5 +13,8 @@
     "nodemon": "^1.18.5",
     "swagger-ui-express": "^4.0.1",
     "yamljs": "^0.3.0"
+  },
+  "script":{
+    "start":"nodemon app.js"
   }
 }

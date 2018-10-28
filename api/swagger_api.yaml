@@ -1,0 +1,271 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost:8080'
+  - url: 'https://localhost:8080'
+  
+info:
+  version: "0.0.1-oas3"
+  title: Articelph
+tags:
+  - name: User
+  - name: Articles
+
+paths:
+  /api/register:
+    post:
+     tags:
+        - User
+     responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorization'
+     requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+        
+  /api/secure/startApplication:
+    get:
+      tags:
+        - User
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+        '450':
+          description: Check your mail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+        '451':
+          description: Unregister
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+        '452':
+          description: Waiting for validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+  /api/secure/articles:
+    get:
+      tags:
+        - Articles
+      security:
+        - AuthorizationKey: []
+          Udid: []  
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: defaultLanguage
+          in: query
+          schema:
+            type: string
+        - name: transgerLanguage
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+  /api/secure/categories:
+    get:
+      tags:
+        - Articles
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  /api/secure/languages:
+    get:
+      tags:
+        - Articles
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+  /api/secure/article:
+    post:
+      tags:
+        - Articles
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Article'
+        required: true
+        
+  /api/secure/articles/{articleId}/detail:
+   put:
+    tags:
+        - Articles
+    security:
+        - AuthorizationKey: []
+          Udid: []
+    parameters: 
+     - name: articleId
+       in: path
+       required: true
+       schema:
+          type: string
+    responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+  
+  
+   get:
+    tags:
+        - Articles
+    security:
+        - AuthorizationKey: []
+          Udid: []
+    parameters: 
+     - name: articleId
+       in: path
+       required: true
+       schema:
+          type: string      
+    responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'  
+        
+        
+        
+  /swagger:
+    x-swagger-pipe: swagger_raw
+components:
+
+  securitySchemes:
+    AuthorizationKey:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: AuthorizationKey
+    Udid:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: Udid  
+  schemas:
+    CommonResponse:
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+      type: object
+    User:
+      properties:
+        _id:
+          type: string
+        emailAdress:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+      type: object
+    Authorization:
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        secretKey:
+          type: string
+      type: object
+    Article:
+      properties:
+        _id:
+          type: string
+        category:
+          type: string
+        link:
+          type: string
+        status:
+          type: string
+        defaultLanguage:
+          type: string
+        transferLanguage:
+          type: string
+        thumbNailPhoto:
+         type: string
+        description:
+         type: string
+        postedBy:
+          $ref: '#/components/schemas/User'
+        translator:
+          $ref: '#/components/schemas/User'
+      type: object
+    Category:
+      properties:
+        _id:
+          type: string
+        categoryName:
+          type: string
+      type: object
+    Language:
+      properties:
+        _id:
+          type: string
+        language:
+          type: string
+      type: object

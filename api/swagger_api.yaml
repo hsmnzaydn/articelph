@@ -7,32 +7,16 @@ info:
   version: "0.0.1-oas3"
   title: Articelph
 tags:
+  - name: Application Configuration
   - name: User
   - name: Articles
-
+  
 paths:
-  /api/register:
-    post:
-     tags:
-        - User
-     responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Authorization'
-     requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        required: true
-        
+      
   /api/secure/startApplication:
     get:
       tags:
-        - User
+        - Application Configuration
       security:
         - AuthorizationKey: []
           Udid: []
@@ -61,6 +45,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
+                
+  /api/secure/links:
+   get:
+      tags:
+        - Application Configuration
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+             schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Link'
+
+
+  /api/register:
+    post:
+     tags:
+        - User
+     responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorization'
+     requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+  
+  /api/secure/profiles/{profileId}:
+    get:
+     security:
+        - AuthorizationKey: []
+          Udid: []
+     tags:
+        - User
+     parameters: 
+      - name: profileId
+        in: path
+        required: true
+        schema:
+         type: string
+     responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+     
+  
+
   /api/secure/articles:
     get:
       tags:
@@ -269,3 +313,17 @@ components:
         language:
           type: string
       type: object
+    Profile:
+     properties:
+      user:
+       $ref: '#/components/schemas/User'
+      beforeTransferedArticleList:
+       $ref: '#/components/schemas/Article'
+      requestArticleList:
+       $ref: '#/components/schemas/Article'
+    Link:
+     properties:
+      _id:
+       type: string
+      link:
+       type: string

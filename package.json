@@ -14,7 +14,7 @@
     "swagger-ui-express": "^4.0.1",
     "yamljs": "^0.3.0"
   },
-  "script":{
-    "start":"node app.js"
+  "scripts": {
+    "start": "node app.js"
   }
 }

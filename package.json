@@ -9,13 +9,13 @@
   "author": "Serkan Ozaydin",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
     "express": "^4.16.4",
+    "mongoose": "^5.3.7",
     "nodemon": "^1.18.5",
     "swagger-ui-express": "^4.0.1",
     "yamljs": "^0.3.0"
-  },
-  "scripts": {
-    "start": "node app.js"
   },
   "engines": {
     "node": ">=0.10.22",

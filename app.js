@@ -15,4 +15,4 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 
 
-app.listen(port)
+app.listen(process.env.PORT || 5000)

@@ -1,9 +1,9 @@
 const express=require('express');
       router=express.Router();
-      userController=require('./user-controller')
       
-      router.get('',userController.test)
-
+    router.get('/aa',function(req,res,next){
+        console.log("Users")
+    })
       
 
 

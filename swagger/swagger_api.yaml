@@ -315,7 +315,7 @@ components:
       properties:
         _id:
           type: string
-        emailAdress:
+        emailAddress:
           type: string
         name:
           type: string
@@ -336,17 +336,18 @@ components:
         _id:
           type: string
         category:
-          type: string
+          $ref: '#/components/schemas/Category'
         link:
-          type: string
+          $ref: '#/components/schemas/Link'
         status:
           type: string
+          enum: ['NOTTRANSLATED','TRANSLATED','TRANSLATING']
         defaultLanguage:
-          type: string
+          $ref: '#/components/schemas/Language'
         transferLanguage:
-          type: string
+          $ref: '#/components/schemas/Language'
         thumbNailPhoto:
-         type: string
+         $ref: '#/components/schemas/Link'
         description:
          type: string
         postedBy:
@@ -373,9 +374,13 @@ components:
       user:
        $ref: '#/components/schemas/User'
       beforeTransferedArticleList:
-       $ref: '#/components/schemas/Article'
+       type: array
+       items:
+        $ref: '#/components/schemas/Article'
       requestArticleList:
-       $ref: '#/components/schemas/Article'
+        type: array
+        items:
+         $ref: '#/components/schemas/Article'
     Link:
      properties:
       _id:

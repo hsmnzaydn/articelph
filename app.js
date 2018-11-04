@@ -4,7 +4,7 @@ const express=require('express');
       //Swagger Configuration
       swaggerUI=require('swagger-ui-express');
       YAML = require('yamljs');
-      swaggerDocument = YAML.load('./api/swagger_api.yaml');
+      swaggerDocument = YAML.load('./swagger/swagger_api.yaml');
       app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));  
 
       // Process Env file
@@ -25,7 +25,10 @@ const express=require('express');
 
       //Routers
       routers=require('./routers/routers')
+    
       app.use('/',routers) 
+
+  
 
 
 

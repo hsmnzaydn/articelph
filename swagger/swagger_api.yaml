@@ -8,15 +8,20 @@ info:
   title: Articelph
 tags:
   - name: Application Configuration
-  - name: User
+  - name: Users
   - name: Articles
+  - name: Categories
+  - name: Languages
+  - name: Links
+  
   
 paths:
       
-  /api/secure/startApplication:
+  /api/secure/start-application:
     get:
-      tags:
-        - Application Configuration
+      description: Is user authorized or unauthorized
+      tags: 
+       - Application Configuration
       security:
         - AuthorizationKey: []
           Udid: []
@@ -27,29 +32,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
-        '450':
-          description: Check your mail
+        '401':
+          description: Unauthorization
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
-        '451':
-          description: Unregister
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResponse'
-        '452':
-          description: Waiting for validation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommonResponse'
+        
                 
   /api/secure/links:
    get:
+      description: Return permitted links
       tags:
-        - Application Configuration
+        - Links
       security:
         - AuthorizationKey: []
           Udid: []
@@ -64,12 +59,13 @@ paths:
                 $ref: '#/components/schemas/Link'
 
 
-  /api/register:
+  /api/users:
     post:
+     description: Create new user
      tags:
-        - User
+        - Users
      responses:
-        '200':
+        '201':
           description: Success
           content:
             application/json:
@@ -82,15 +78,16 @@ paths:
               $ref: '#/components/schemas/User'
         required: true
   
-  /api/secure/profiles/{profileId}:
+  /api/secure/users/{userId}/profile:
     get:
+     description: Get user's profile
      security:
         - AuthorizationKey: []
           Udid: []
      tags:
-        - User
+        - Users
      parameters: 
-      - name: profileId
+      - name: userId
         in: path
         required: true
         schema:
@@ -107,6 +104,7 @@ paths:
 
   /api/secure/articles:
     get:
+      description: Return articles list
       tags:
         - Articles
       security:
@@ -138,47 +136,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Article'
-  /api/secure/categories:
-    get:
-      tags:
-        - Articles
-      security:
-        - AuthorizationKey: []
-          Udid: []
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Category'
-  /api/secure/languages:
-    get:
-      tags:
-        - Articles
-      security:
-        - AuthorizationKey: []
-          Udid: []
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Language'
-  /api/secure/article:
+    
+    
     post:
+      description: Create a new article
       tags:
         - Articles
       security:
         - AuthorizationKey: []
           Udid: []
       responses:
-        '200':
+        '201':
           description: Success
           content:
             application/json:
@@ -191,8 +159,94 @@ paths:
               $ref: '#/components/schemas/Article'
         required: true
         
-  /api/secure/articles/{articleId}/detail:
+        
+  /api/secure/categories:
+    get:
+      tags:
+        - Categories
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+                  
+  /api/secure/categories/{categoryId}/articles:
+    get:
+     tags: 
+      - Categories
+     security: 
+      - AuthorizationKey: []
+        Udid: []
+     parameters: 
+      - name: categoryId
+        in: path
+        required: true
+        schema:
+         type: string
+     responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+                  
+  /api/secure/languages:
+    get:
+      description: Return language list
+      tags:
+        - Languages
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+  
+  /api/secure/languages/{languageId}/articles:
+   get:
+      description: Return language's articles
+      tags:
+        - Languages
+      security:
+        - AuthorizationKey: []
+          Udid: []
+      parameters: 
+       - name: languageId
+         required: true
+         in: path
+         schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+  
+    
+        
+  /api/secure/articles/{articleId}:
    put:
+    description: Take article
     tags:
         - Articles
     security:
@@ -214,6 +268,7 @@ paths:
   
   
    get:
+    description: Get an article
     tags:
         - Articles
     security:
@@ -260,7 +315,7 @@ components:
       properties:
         _id:
           type: string
-        emailAdress:
+        emailAddress:
           type: string
         name:
           type: string
@@ -281,17 +336,18 @@ components:
         _id:
           type: string
         category:
-          type: string
+          $ref: '#/components/schemas/Category'
         link:
-          type: string
+          $ref: '#/components/schemas/Link'
         status:
           type: string
+          enum: ['NOTTRANSLATED','TRANSLATED','TRANSLATING']
         defaultLanguage:
-          type: string
+          $ref: '#/components/schemas/Language'
         transferLanguage:
-          type: string
+          $ref: '#/components/schemas/Language'
         thumbNailPhoto:
-         type: string
+         $ref: '#/components/schemas/Link'
         description:
          type: string
         postedBy:
@@ -318,9 +374,13 @@ components:
       user:
        $ref: '#/components/schemas/User'
       beforeTransferedArticleList:
-       $ref: '#/components/schemas/Article'
+       type: array
+       items:
+        $ref: '#/components/schemas/Article'
       requestArticleList:
-       $ref: '#/components/schemas/Article'
+        type: array
+        items:
+         $ref: '#/components/schemas/Article'
     Link:
      properties:
       _id:

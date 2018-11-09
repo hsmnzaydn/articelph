@@ -7,6 +7,15 @@ const express=require('express');
       swaggerDocument = YAML.load('./swagger/swagger_api.yaml');
       app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));  
 
+      // Body Parser
+      bodyParser=require('body-parser')
+      app.use(bodyParser.urlencoded({ extended: false }))
+      app.use(bodyParser.json())
+
+      //Cors
+      cors = require('cors')
+      app.use(cors())
+
       // Process Env file
       require('dotenv').config({path: './process.env'});
       
@@ -19,9 +28,14 @@ const express=require('express');
       })
       mongoose.Promise = global.Promise;
       
-      // Body Parser
-      bodyParser=require('body-parser')
-      app.use(bodyParser.urlencoded({ extended: true }));
+      // Error handling
+      app.use(function(err,req,res,next){
+        res.send({
+          code:500,
+          message:"Error"
+        })
+      })
+
 
       //Routers
       routers=require('./routers/routers')

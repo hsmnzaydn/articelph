@@ -2,7 +2,10 @@ openapi: 3.0.0
 servers:
   - url: 'http://localhost:8080'
   - url: 'https://localhost:8080'
-  
+consumes:
+  - application/json
+produces:
+  - application/json  
 info:
   version: "0.0.1-oas3"
   title: Articelph

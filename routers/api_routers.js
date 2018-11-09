@@ -24,6 +24,7 @@ const express = require('express')
 
       // User Controller
       userController=require('../components/user/user-controller')
-      router.get(global.API_SECURE_BASE_PATH+global.API_USER_BASE_PATH,userController.test)
+      //router.get(global.API_SECURE_BASE_PATH+global.API_USER_BASE_PATH,userController.test)
+      router.post(global.API_USER_BASE_PATH,userController.registerUser)
       
 module.exports=router;      

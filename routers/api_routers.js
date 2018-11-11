@@ -1,30 +1,29 @@
-const express = require('express')
-      router = express.Router();
-      Constant=require('../Utils/Constants')
-      
-      // Interceptor
-      intercepter=require('../controller/interceptor')
-      router.all(global.API_SECURE_BASE_PATH,intercepter.intercepter)    
-      
-      // Articles Router
-      articlesRouter=require('../components/articles/articles_router')
-      router.use(global.API_SECURE_BASE_PATH+global.APT_ARTICLES_PATH,articlesRouter)
+var express = require('express')
+    router = express.Router();
+    constant=require('../Utils/Constants')
 
-      // Categories Router
-      categoriesRouter=require('../components/categories/categories_router')
-      router.use(global.API_SECURE_BASE_PATH+global.API_CATEGORIES_PATH,categoriesRouter)
-      
-      // Languages Router
-      languagesRouter=require('../components/languages/languages_router')
-      router.use(global.API_SECURE_BASE_PATH+global.API_LANGUAGES_PATH,languagesRouter)
+    
+    // Logger
+    loggerController=require('../controller/logger')
+    router.use(loggerController.logger)
 
-      // Links Router
-      linksRouter=require('../components/links/links_router')
-      router.use(global.API_SECURE_BASE_PATH+global.API_LINKS_PATH,linksRouter)
+    // Interceptor
+    intercepter=require('../controller/interceptor')
+    router.use(global.API_SECURE_BASE_PATH,intercepter.interceptor)  
+    
+    // Startapplication Controllers
+    startApplicationController=require('../controller/start-application') 
+    router.get(global.APT_SECURE_START_APPLICATION,startApplicationController.startApplication)
 
-      // User Controller
-      userController=require('../components/user/user-controller')
-      //router.get(global.API_SECURE_BASE_PATH+global.API_USER_BASE_PATH,userController.test)
-      router.post(global.API_USER_BASE_PATH,userController.registerUser)
+    //User Controllers
+    userController=require('../components/user/user-controller')
+    router.post(global.API_USER_BASE_PATH,userController.registerUser);
+    router.get(global.API_SECURE_USER_BASE_PATH+'/'+':id'+'/profile',userController.getProfile);
+    router.put(global.API_SECURE_USER_BASE_PATH+'/'+':id'+'/profile',userController.updateUser);
+
+
+
+
       
+
 module.exports=router;      

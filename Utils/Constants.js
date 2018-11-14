@@ -30,7 +30,7 @@ global.UNREGISTER_CODE=401;
 global.UNREGISTER_MESSAGE="This user is not register";
 
 global.WAITING_VALIDATION_CODE=452;
-global.WAITING_VALIDATIN_MESSAGE="Waiting for validation"
+global.WAITING_VALIDATION_MESSAGE="Waiting for validation"
 
 // Server Response alternatives
 global.OK_CODE=200;
@@ -38,3 +38,9 @@ global.OK_MESSAGE='OK';
 
 global.ERROR_CODE=500;
 global.ERROR_MESSAGE='There is a problem at server'
+
+
+
+// MAIL CONTENTS
+global.MAIL_SUBJECT='Articelp';
+global.MAIL_TEXT='Hi, \n If you want confirmed account you have to click to under link \n';

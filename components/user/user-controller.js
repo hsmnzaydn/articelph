@@ -4,7 +4,8 @@ profileSchema = require('./model/profile_model')
 constant = require('../../Utils/Constants')
 utility = require('../../Utils/Utility')
 uuid = require('uuid/v1');
-
+userEnums = require('./enums')
+mailUtility = require('../../Utils/mail_utility')
 module.exports = {
     registerUser,
     getProfile,
@@ -20,8 +21,9 @@ async function registerUser(req, res, next) {
 
     var userObject = new userSchema({
         installedApplication: installedApplicationObject._id,
-        emailAdress: req.body.emailAdress,
+        emailAddress: req.body.emailAdress,
         name: req.body.name,
+        registerStatus: userEnums.userStatusEnum.UNCONFIRMED,
         password: req.body.password
     })
 
@@ -32,20 +34,19 @@ async function registerUser(req, res, next) {
     installedApplicationObject.user = userObject._id;
     userObject.installedApplication = installedApplicationObject._id;
 
-    installedApplicationObject.save().then(installedApplication => {
-        console.log(installedApplication)
-    }).catch(next)
 
-    profile.save().then(profile => {
-        console.log(profile)
-    }).catch(next)
 
 
     userObject.save().then(function (user) {
-        console.log(user)
+        mailUtility.sendMail(userObject.emailAddress)
+    }).then(function () {
+        installedApplicationObject.save()
+    }).then(function () {
+        profile.save()
+    }).then(function () {
         res.send({
-            code: 200,
-            message: 'OK',
+            code: global.WAITING_VALIDATION_CODE,
+            message: global.WAITING_VALIDATION_MESSAGE,
             secretKey: installedApplicationObject._id
         })
     }).catch(next)
@@ -93,7 +94,7 @@ async function updateUser(req, res, next) {
                     user: req.params.id
                 }).then(profile => {
                     profile.profileImage = imageName
-                    profile.save().catch(next)
+                    profile.save()
                 }).catch(next)
             }
         }

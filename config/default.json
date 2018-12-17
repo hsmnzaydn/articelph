@@ -1,0 +1,22 @@
+{
+    "Development": {
+      "dbConfig": {
+        "host": "mongodb://localhost/articelph",
+        "dbName": "articelph"
+      },
+      "server":{
+          "baseUrl":"http://localhost:8080/"
+      }
+    },
+    "Production": {
+        "dbConfig": {
+          "host": "http://localhost:8080/",
+          "port": 8080,
+          "dbName": "articelph-prod"
+        },
+        "credit": {
+          "initialLimit": 100,
+          "initialDays": 1
+        }
+      }
+  }

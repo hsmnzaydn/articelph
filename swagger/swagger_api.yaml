@@ -2,10 +2,8 @@ openapi: 3.0.0
 servers:
   - url: 'http://localhost:8080'
   - url: 'https://localhost:8080'
-consumes:
-  - application/json
-produces:
-  - application/json  
+  - url: 'http://articelph.herokuapp.com'
+  
 info:
   version: "0.0.1-oas3"
   title: Articelph
@@ -41,6 +39,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
+        '452':
+          description: Unvalidation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'        
         
                 
   /api/secure/links:
@@ -66,7 +70,10 @@ paths:
     post:
      description: Create new user
      tags:
-        - Users
+        - Users   
+     security:
+        - AuthorizationKey: []
+          Udid: []   
      responses:
         '201':
           description: Success
@@ -79,7 +86,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-        required: true
+        required: false
   
   /api/secure/users/{userId}/profile:
     get:
@@ -102,8 +109,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Profile'
-     
-  
+    
+    put:
+     description: Get user's profile
+     security:
+        - AuthorizationKey: []
+          Udid: []
+     tags:
+        - Users
+     parameters: 
+      - name: userId
+        in: path
+        required: true
+        schema:
+         type: string
+      - name: area
+        in: query
+        required: true
+        schema:
+         type: string
+         enum: ['PROFILEIMAGE','NAME','EMAILADRESS']
+     responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+     requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+        required: true            
 
   /api/secure/articles:
     get:
@@ -318,7 +363,7 @@ components:
       properties:
         _id:
           type: string
-        emailAddress:
+        emailAdress:
           type: string
         name:
           type: string
@@ -339,18 +384,17 @@ components:
         _id:
           type: string
         category:
-          $ref: '#/components/schemas/Category'
+          type: string
         link:
-          $ref: '#/components/schemas/Link'
+          type: string
         status:
           type: string
-          enum: ['NOTTRANSLATED','TRANSLATED','TRANSLATING']
         defaultLanguage:
-          $ref: '#/components/schemas/Language'
+          type: string
         transferLanguage:
-          $ref: '#/components/schemas/Language'
+          type: string
         thumbNailPhoto:
-         $ref: '#/components/schemas/Link'
+         type: string
         description:
          type: string
         postedBy:
@@ -374,16 +418,14 @@ components:
       type: object
     Profile:
      properties:
+      profileImage:
+       type: string
       user:
        $ref: '#/components/schemas/User'
       beforeTransferedArticleList:
-       type: array
-       items:
-        $ref: '#/components/schemas/Article'
+       $ref: '#/components/schemas/Article'
       requestArticleList:
-        type: array
-        items:
-         $ref: '#/components/schemas/Article'
+       $ref: '#/components/schemas/Article'
     Link:
      properties:
       _id:

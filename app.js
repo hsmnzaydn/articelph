@@ -1,5 +1,6 @@
 const express=require('express');
       app=express();
+      router=express.Router();
       
       //Swagger Configuration
       swaggerUI=require('swagger-ui-express');
@@ -11,6 +12,13 @@ const express=require('express');
       bodyParser=require('body-parser')
       app.use(bodyParser.urlencoded({ extended: false }))
       app.use(bodyParser.json())
+
+      // File Upload
+      path = require('path');
+      app.use(express.static(path.join(__dirname, 'resources')));
+      app.use(express.static(path.join(__dirname, './resources/upload')));
+      fileUpload = require('express-fileupload');
+      app.use(fileUpload())
 
       //Cors
       cors = require('cors')
@@ -29,18 +37,19 @@ const express=require('express');
       mongoose.Promise = global.Promise;
       
       // Error handling
-      app.use(function(err,req,res,next){
-        res.send({
+      
+      app.use(function (err, req, res, next) {
+        res.status(500).send({
           code:500,
-          message:"Error"
+          err:err.message,
+          message:'There is a problem'
         })
       })
 
-
       //Routers
-      routers=require('./routers/routers')
-    
-      app.use('/',routers) 
+      constant=require('./Utils/Constants')
+      routers=require('./routers/api_routers')
+      app.use(global.API_BASE_PATH,routers);  
 
   
 

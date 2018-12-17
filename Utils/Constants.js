@@ -1,46 +1,47 @@
- global.API_BASE_PATH='/api';
+ global.API_BASE_PATH = '/api';
 
-// API ENDPOINTS
- global.API_SECURE_BASE_PATH='/secure';
- global.APT_SECURE_START_APPLICATION=global.API_SECURE_BASE_PATH+'/start-application';
+ // API ENDPOINTS
+ global.API_SECURE_BASE_PATH = '/secure/';
+ global.APT_SECURE_START_APPLICATION = global.API_SECURE_BASE_PATH + '/start-application/';
 
- global.API_USER_BASE_PATH='/users';
- global.API_SECURE_USER_BASE_PATH=global.API_SECURE_BASE_PATH+'/users';
- 
- 
- global.API_SECURE_ARTICLES_PATH=global.API_SECURE_BASE_PATH+'/articles';
- 
- 
- global.API_SECURE_CATEGORIES_PATH=global.API_SECURE_BASE_PATH+'/categories';
- 
- 
- global.API_SECURE_LANGUAGES_PATH=global.API_SECURE_BASE_PATH+'/languages';
- 
- 
- 
- global.API_SECURE_LINKS_PATH=global.API_SECURE_BASE_PATH+'/links'
+ global.API_USER_BASE_PATH = '/users/';
+ global.API_SECURE_USER_BASE_PATH = global.API_SECURE_BASE_PATH + API_USER_BASE_PATH;
 
 
+ global.API_ARTICLES_BASE_PATH = '/articles/';
+ global.API_SECURE_ARTICLES_PATH = global.API_SECURE_BASE_PATH + global.API_ARTICLES_BASE_PATH;
 
-// Startapplication alternatives
-global.WAIT_CODE=450;
-global.WAIT_MESSAGE="Please check your mail"
+ global.API_CATEGORIES_BASE_PATH = '/categories/';
+ global.API_SECURE_CATEGORIES_PATH = global.API_SECURE_BASE_PATH + global.API_CATEGORIES_BASE_PATH;
 
-global.UNREGISTER_CODE=401;
-global.UNREGISTER_MESSAGE="This user is not register";
+ global.API_LANGUAGES_BASE_PATH = '/languages/';
+ global.API_SECURE_LANGUAGES_PATH = global.API_SECURE_BASE_PATH + global.API_LANGUAGES_BASE_PATH;
 
-global.WAITING_VALIDATION_CODE=452;
-global.WAITING_VALIDATION_MESSAGE="Waiting for validation"
 
-// Server Response alternatives
-global.OK_CODE=200;
-global.OK_MESSAGE='OK';
-
-global.ERROR_CODE=500;
-global.ERROR_MESSAGE='There is a problem at server'
+ global.API_LINKS_BASE_PATH = '/links/';
+ global.API_SECURE_LINKS_PATH = global.API_SECURE_BASE_PATH + global.API_LINKS_BASE_PATH
 
 
 
-// MAIL CONTENTS
-global.MAIL_SUBJECT='Articelp';
-global.MAIL_TEXT='Hi, \n If you want confirmed account you have to click to under link \n';
+ // Startapplication alternatives
+ global.WAIT_CODE = 450;
+ global.WAIT_MESSAGE = "Please check your mail"
+
+ global.UNREGISTER_CODE = 401;
+ global.UNREGISTER_MESSAGE = "This user is not register";
+
+ global.WAITING_VALIDATION_CODE = 452;
+ global.WAITING_VALIDATION_MESSAGE = "Waiting for validation"
+
+ // Server Response alternatives
+ global.OK_CODE = 200;
+ global.OK_MESSAGE = 'OK';
+
+ global.ERROR_CODE = 500;
+ global.ERROR_MESSAGE = 'There is a problem at server'
+
+
+
+ // MAIL CONTENTS
+ global.MAIL_SUBJECT = 'Articelp';
+ global.MAIL_TEXT = 'Hi, \n If you want confirmed account you have to click to under link \n';

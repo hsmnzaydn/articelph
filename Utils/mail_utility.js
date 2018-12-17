@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
-      require('dotenv').config({path: './process.env'});  
+      require('dotenv').config({path: '../process.env'});  
 let   transporter;
       constant=require('./Constants')
-
+      
 
 transporter=nodemailer.createTransport({
     host: process.env.MAIL_HOST,
@@ -19,12 +19,12 @@ transporter=nodemailer.createTransport({
 });
 
 
-module.exports.sendMail=function(to){
+module.exports.sendMail=function(to,authKey){
     let HelperOptions={
         from:process.env.MAIL_ADDRESS,
         to:to,
         subject:global.MAIL_SUBJECT,
-        text: global.MAIL_TEXT
+        text: global.MAIL_TEXT+"\n"+process.env.BASE_URL+API_USER_BASE_PATH+'/'+authKey+'\n Thank you'
     };
     
     transporter.sendMail(HelperOptions, function(error, info){

@@ -3,7 +3,9 @@ const articleSchema = require('./model/article_model')
 
 module.exports = {
     getArticles,
-    createArticle
+    createArticle,
+    updateArticle,
+    getArticle
 }
 
 async function getArticles(req, res, next) {
@@ -14,5 +16,13 @@ async function getArticles(req, res, next) {
 
 
 async function createArticle(req,res,next){
+    
+}
+
+async function updateArticle(req,res,next) {
+    
+}
+
+async function getArticle(req,res,next) {
     
 }

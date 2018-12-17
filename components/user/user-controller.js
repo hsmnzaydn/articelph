@@ -9,7 +9,8 @@ const userSchema = require('./model/user_model')
 module.exports = {
     registerUser,
     getProfile,
-    updateUser
+    updateUser,
+    authorizationUser
 }
 
 async function registerUser(req, res, next) {
@@ -42,7 +43,7 @@ async function registerUser(req, res, next) {
     }).then(function () {
         profile.save()
     }).then(function () {
-        mailUtility.sendMail(userObject.emailAddress)
+        mailUtility.sendMail(userObject.emailAddress,installedApplicationObject._id)
 
     }).then(function () {
         res.send({
@@ -105,5 +106,18 @@ async function updateUser(req, res, next) {
             code: global.OK_CODE,
             message: global.OK_MESSAGE
         })
+    }).catch(next)
+}
+
+
+async function authorizationUser(req,res,next) {
+    installedApplication.findOne({_id:req.params.user}).
+    populate({
+        path: 'user'
+    }).
+    then(installedApplication=>{
+        installedApplication.user.registerStatus=userEnums.CONFIRMED;
+    }).then(function(){
+        installedApplication.save()
     }).catch(next)
 }

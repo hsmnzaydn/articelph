@@ -4,7 +4,9 @@ var Schema = mongoose.Schema;
 
 var language = new Schema(
     {
-        language:{type:String,default:null}
+        code:{type:String,default:null},
+        name:{type:String,default:null},
+        nativeName:{type:String,default:null}
         
 
     }

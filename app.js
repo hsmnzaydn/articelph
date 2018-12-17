@@ -5,7 +5,7 @@ const express=require('express');
       //Swagger Configuration
       swaggerUI=require('swagger-ui-express');
       YAML = require('yamljs');
-      swaggerDocument = YAML.load('./swagger/swagger_api.yaml');
+      swaggerDocument = YAML.load('./api/swagger/swagger.yaml');
       app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));  
 
       // Body Parser
@@ -32,7 +32,7 @@ const express=require('express');
       mongoose.connect(process.env.DB_URL).then(()=>{
         console.log('MongoDB is connected')
       }).catch(err=>{
-        console.error(err)
+          console.log(err)
       })
       mongoose.Promise = global.Promise;
       

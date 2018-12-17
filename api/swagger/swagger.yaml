@@ -406,15 +406,19 @@ components:
       properties:
         _id:
           type: string
-        categoryName:
+        name:
           type: string
       type: object
     Language:
       properties:
         _id:
           type: string
-        language:
+        code:
           type: string
+        name:
+           type: string
+        nativeName:
+           type: string     
       type: object
     Profile:
      properties:

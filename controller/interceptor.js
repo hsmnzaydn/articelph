@@ -37,5 +37,11 @@ async function interceptor(req, res, next) {
             next();
 
         }
-    }).catch(next)
+    }).catch(err=>{
+        console.log(err.message)
+        res.status(500).send({
+            code:500,
+            message: "There is a problem"
+        })
+    })
 }

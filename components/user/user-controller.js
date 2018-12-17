@@ -1,11 +1,11 @@
 const userSchema = require('./model/user_model')
-installedApplicationSchema = require('./model/installed_application_model')
-profileSchema = require('./model/profile_model')
-constant = require('../../Utils/Constants')
-utility = require('../../Utils/Utility')
-uuid = require('uuid/v1');
-userEnums = require('./enums')
-mailUtility = require('../../Utils/mail_utility')
+      installedApplicationSchema = require('./model/installed_application_model')
+      profileSchema = require('./model/profile_model')
+      constant = require('../../Utils/Constants')
+      utility = require('../../Utils/Utility')
+      uuid = require('uuid/v1');
+      userEnums = require('./enums')
+      mailUtility = require('../../Utils/mail_utility')
 module.exports = {
     registerUser,
     getProfile,
@@ -38,11 +38,12 @@ async function registerUser(req, res, next) {
 
 
     userObject.save().then(function (user) {
-        mailUtility.sendMail(userObject.emailAddress)
-    }).then(function () {
         installedApplicationObject.save()
     }).then(function () {
         profile.save()
+    }).then(function () {
+        mailUtility.sendMail(userObject.emailAddress)
+
     }).then(function () {
         res.send({
             code: global.WAITING_VALIDATION_CODE,

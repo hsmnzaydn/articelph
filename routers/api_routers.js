@@ -22,6 +22,12 @@ var express = require('express')
     router.put(global.API_SECURE_USER_BASE_PATH+'/'+':id'+'/profile',userController.updateUser);
 
 
+    //Articles Controllers
+    articlesController=require('../components/articles/articles-controller')
+    router.get(global.API_SECURE_ARTICLES_PATH,articlesController.getArticles)
+    router.post(global.API_SECURE_ARTICLES_PATH,articlesController.createArticle)
+
+
 
 
       
